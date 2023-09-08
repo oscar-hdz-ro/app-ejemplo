@@ -1,4 +1,5 @@
 # Proyecto Power Apps y Power BI
+El objetivo principal de la aplicación es digitalizar y facilitar el control de acceso a las instalaciones empresariales. La aplicación combina el uso de Power Apps para la gestión de acceso y control, así como Power BI para generar informes detallados 
 
 ## Arquitectura app
 Adjunto como archivo
