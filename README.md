@@ -1,10 +1,10 @@
 # Proyecto Power Apps y Power BI
 
 ## Arquitectura app
-![image](https://github.com/oscar-hdz-ro/powerbi/assets/144398997/c3df3cb6-1c89-45bf-b932-1b91544d6ab2)
+Adjunto como archivo
 
 ## Diseño App
-![image](https://github.com/oscar-hdz-ro/powerbi/assets/144398997/985873ed-3433-4b54-b693-cedf58dd0ae8)
+Adjunto como archivo
 
 ## Requisitos Técnicos
 
@@ -42,7 +42,7 @@ Debe ser capaz de generar informes y proporcionar una auditoría de acceso para 
 ## Configuración y Despliegue
 
 ## Manual de usuario
-![image](https://github.com/oscar-hdz-ro/powerbi/assets/144398997/5ba80554-cb05-414e-b398-05506d113fbd)
+Adjunto como archivo
 
 ## Codigo fuente
 Adjunto como archivo
@@ -97,7 +97,7 @@ Proporciona un sistema de soporte técnico para ayudar a los usuarios en caso de
 
 
 ## Prototipo
-![image](https://github.com/oscar-hdz-ro/powerbi/assets/144398997/fd51d07d-a99e-4c84-a828-3fbde690e1d0)
+Adjunto como archivo
 
 
 ## Plan de Actualizacion y mantenimiento
