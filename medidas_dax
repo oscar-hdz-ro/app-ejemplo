@@ -1,0 +1,88 @@
+-- Número Total de Accesos
+TotalAccesos = COUNT('Accesos'[ID_Acceso])
+
+-- Número de Accesos Únicos por Usuario
+AccesosUnicosPorUsuario = DISTINCTCOUNT('Accesos'[ID_Usuario])
+
+-- Promedio de Accesos por Día
+PromedioAccesosPorDia = AVERAGEX(
+    VALUES('Calendario'[Fecha]),
+    CALCULATE(COUNT('Accesos'[ID_Acceso]))
+)
+
+-- Accesos Fuera de Horario Laboral
+AccesosFueraHorarioLaboral = CALCULATE(
+    COUNT('Accesos'[ID_Acceso]),
+    'Accesos'[Hora_Acceso] < TIME(9, 0, 0) || 'Accesos'[Hora_Acceso] > TIME(18, 0, 0)
+)
+
+-- Tiempo Medio de Permanencia en la Instalación
+-- Asumiendo que tienes columnas para Hora_Entrada y Hora_Salida
+TiempoMedioPermanencia = AVERAGEX(
+    'Accesos',
+    DATEDIFF('Accesos'[Hora_Entrada], 'Accesos'[Hora_Salida], MINUTE)
+)
+
+-- Usuarios con Más Accesos en un Periodo Específico
+TopUsuariosAccesos = TOPN(
+    5,
+    SUMMARIZE(
+        'Accesos',
+        'Accesos'[ID_Usuario],
+        "TotalAccesos", COUNT('Accesos'[ID_Acceso])
+    ),
+    [TotalAccesos],
+    DESC
+)
+
+-- Accesos por Departamento
+AccesosPorDepartamento = CALCULATE(
+    COUNT('Accesos'[ID_Acceso]),
+    ALLEXCEPT('Accesos', 'Accesos'[Departamento])
+)
+
+-- Usuarios con Accesos Fuera de Horario en un Mes
+UsuariosFueraHorarioMes = CALCULATE(
+    DISTINCTCOUNT('Accesos'[ID_Usuario]),
+    'Accesos'[Hora_Acceso] < TIME(9, 0, 0) || 'Accesos'[Hora_Acceso] > TIME(18, 0, 0),
+    DATESINPERIOD('Calendario'[Fecha], TODAY(), -1, MONTH)
+)
+
+-- Comparación de Accesos Entre Meses
+ComparacionAccesosMeses = 
+VAR AccesosMesActual = CALCULATE(
+    COUNT('Accesos'[ID_Acceso]),
+    DATESINPERIOD('Calendario'[Fecha], TODAY(), -1, MONTH)
+)
+VAR AccesosMesAnterior = CALCULATE(
+    COUNT('Accesos'[ID_Acceso]),
+    DATESINPERIOD('Calendario'[Fecha], TODAY() - 1, -1, MONTH)
+)
+RETURN
+IF(AccesosMesAnterior = 0, BLANK(), (AccesosMesActual - AccesosMesAnterior) / AccesosMesAnterior)
+
+-- Accesos en Fines de Semana
+AccesosFinDeSemana = CALCULATE(
+    COUNT('Accesos'[ID_Acceso]),
+    WEEKDAY('Calendario'[Fecha], 2) >= 6
+)
+
+-- Usuarios con Mayor Tiempo de Permanencia
+UsuariosMayorTiempoPermanencia = TOPN(
+    5,
+    SUMMARIZE(
+        'Accesos',
+        'Accesos'[ID_Usuario],
+        "TotalTiempoPermanencia", SUMX('Accesos', DATEDIFF('Accesos'[Hora_Entrada], 'Accesos'[Hora_Salida], MINUTE))
+    ),
+    [TotalTiempoPermanencia],
+    DESC
+)
+"""
+  --,[CommuteDistance]
+  g.city AS [Customer City] -- Joined in [Customer City] column from the Geography table
+FROM 
+  [AdventureWorksDW2019].[dbo].[DimCustomer] AS c 
+  LEFT JOIN dbo.DimGeography AS g ON g.GeographyKey = c.GeographyKey -- Joined DimGeography table using PK and FK
+ORDER BY 
+  CustomerKey ASC
